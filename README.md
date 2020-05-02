@@ -24,3 +24,5 @@ Le dossier dist contient les configurations css et js de boostrap.
 Le dossier img cnotient les images utilisés en dans les pages htmls.
 
 Le dossier uploads contient les images sur le serveur (.jpg, .jpeg ...)
+
+Le fichier photo.sql est la base de donnees de base. Quand vous faites insert la cle primaire peut etre auto-increment, donc pas besoin d'insert into table(varAuto, a, b) values ("a", "b", "c"), mais plutot faire insert into table(a,b) values ("a", "b") parce auto increment insert unique automatiquement.
