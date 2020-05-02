@@ -11,7 +11,7 @@ Voici les pages
 
 5 - Page Ami (incluant les photos de nos amis) 
 
-6 - Page Photo (page photo personnel, faire demande ami, accepte demande ami)
+6 - Page Photo (page photo personnel, faire demande ami, accepte demande ami, supprimer ami)
 
 Le fichier fichier.js permet d'uploader un fichier sur le serveur (dans le dossier uWamp/www/img)
 
