@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Page Accueil</title>
+	<meta name="viewport" content="width=device=width=device-width, initial-scale=1.0">
+	<meta charset="utf-8">
+	<script type="dist/js/bootstrap.min.js"></script>
+	<script src="dist/js/jquery.min.js"></script>
+  	<script src="dist/js/popper.js"></script>
+	
+	<link rel="stylesheet" href="dist/css/bootstrap.css">	
+	<link rel=stylesheet href="style.css">
+	
+</head>
+<header>
+	
+	<nav>
+		<div class="text-center">
+				<figure>
+					<img src="img/logo.svg" style="width: 100px"> <br/>
+					<figurecaption> PhotoShare </figurecaption>
+				</figure>
+			</div>
+		</div>
+		<div class="conteneur conteneur-reparti" style="flex-wrap: nowrap;">
+			<div class="conteneur" >
+				<ul style="list-style: none">
+					<li><a href="pageAccueil.html"><button type="button" class="btn btn-primary"> Accueil </button></a></li>
+
+					<li><a id="p_ami" href="pageAmi.html"><button type="button" class="btn btn-primary">Mes Amis</button></a></li>
+					<li><a id="p_photo" href="pagePhoto.html"><button type="button" class="btn btn-primary">Mes Photos</button></a></li>
+					<li><a id="p_public" href="pagePublic.html"><button type="button" class="btn btn-primary">Public</button></a></li>
+				</ul>
+			</div>
+			<div class="conteneur conteneur-fin">
+				<div class="dropdown">
+					<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					  <img src="img/person.png" style="height: 30px">
+					  </button>
+					  <div class="dropdown-menu btn btn-primary" aria-labelledby="dropdownMenuButton">
+					    <a class="dropdown-item" href="pageInscription.html">S'inscrire</a>
+					    <a class="dropdown-item" href="pageConnexion.html">Se connecter</a>
+					    <a class="dropdown-item" href="pageDeconnexion.html">Déconnexion</a>
+					  </div>
+				</div>
+			</div>
+		</div>
+	</nav>
+
+</header>
+<main style="min-height: 600px" class="text-center">
+	<div class="container text-center">
+		<div class="row">
+			<div class="col-lg-4">
+				<div class="card" style="width: 300px">
+					<img src="img/photograph.webp" class="card-img-top">
+					<div class="card-body">
+						<p class="card-text" style="border: 2px solid black; height: 150px"> <strong>PhotoShare</strong> <br/> Site de partage de photos</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-4">
+				<div class="card " style="width: 300px">
+					<img src="img/friend.webp" class="card-img-top">
+					<div class="card-body">
+						<p class="card-text" style="border: 2px solid black; height: 150px"> <strong> Partager à vos amis </strong> <br/> Publier vos photos </p>
+					</div>
+				</div>			
+			</div>
+
+			<div class="col-lg-4">
+				<div class="card" style="width: 300px">
+					<img src="img/world.webp" class="card-img-top">
+					<div class="card-body">
+						<p class="card-text" style="border: 2px solid black; height: 150px"> Explorer les photos des utilisateur de partout dans le monde </p>
+					</div>
+				</div>			
+			</div>
+		</div>
+	</div>
+
+</main>
+<footer>
+	<nav>
+		<div class="conteneur conteneur-reparti">
+			<div class="conteneur conteneur-vertical">
+				<ul>
+					<li>
+					<a href="#"><button type="button" class="btn btn-primary"> Propos </button></a></li>
+					<li>
+					<a href="#"><button type="button" class="btn btn-primary"> Contact </button></a></li>
+				</ul>
+			</div>
+			<div class="conteneur conteneur-vertical">
+				<ul><li>
+					<a href="#"><button type="button" class="btn btn-primary"> Notre entreprise </button></a></li>
+				</ul>
+			</div>
+			
+			<div class="conteneur conteneur-vertical">
+				<ul><li>
+					<a href="#"><button type="button" class="btn btn-primary"> Politique de confidentialitee </button></a></li>
+				</ul>
+
+			</div>
+		</div>
+	</nav>
+	<small>© Copyright 2020. All rights reserved.</small>
+</footer>
+</html>
