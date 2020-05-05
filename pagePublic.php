@@ -2,7 +2,7 @@
 <html lang="fr-CA">
 <head>
 	<title>
-		PhotoShare - Connexion
+		Public
 	</title>
 	<meta name="viewport" content="width=device=width=device-width, initial-scale=1.0">
 	<meta charset="utf-8">
@@ -17,33 +17,31 @@
 </head>
 <body>
 	<header>
-			<div id="header">	</div>
-
+		<div id="header"></div>
 	</header>	
 	
-		
 	<main style="min-height: 600px">
-		<div class="jumbotron text-center" style="margin-bottom:0; background-color:orange; color:white">
-		  <h1>Déconnection <h1>
-		</div>
-		<br />
-		<br />
-		<br />
-		<div class="container">
-			<div class="row">
-				<div class="alert alert-primary" role="alert">
-					<?php session_start(); 
-					if (isset($_SESSION["nom"])) {
-
-
-					echo "L'utilisateur ".$_SESSION["nom"]. " est déconnecté du site."; }
-					else {
-						echo "Aucun utilisateur connecté.";}session_destroy();
-					?>
-				</div>
-			</div>
-		</div>
+		<div class="input-group-prepend" style="justify-content: center">
+        	<form >
+        		<input type="submit" name="" value="Afficher les images publiques">
+        	</form>
+    	</div>
 	</main>
+
+	<?php 
+		if(!isset($_SESSION)) {
+ 			   session_start();
+		} 
+	
+		include_once('/classes/Image.class.php'); 
+		include_once('/classes/ImageDAO.class.php'); 
+		$dao = new ImageDAO();
+		$liste = $dao->findPublicImage();
+		echo "hi";
+		foreach($liste as $image) {
+			echo "<figure><img src='".$image->getUrl()."'/><br/><figurecaption>".$image->getNom()."</figurecaption></figure>";
+		}
+	?>
 	<footer>
 		<div id="footer"></div>
 	</footer>

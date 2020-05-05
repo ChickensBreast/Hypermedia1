@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2 id="love">My First Web Page</h2>
+<p>My First Paragraph.</p>
+
+<div id="demo"></div>
+
+<script>
+document.getElementById("love").innerHTML = <?php echo $_SESSION_["id"].$_SESSION_["nom"]; ?> 
+</script>
+
+</body>
+</html> 
