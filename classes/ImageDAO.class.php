@@ -1,5 +1,6 @@
 <?php
 include_once('/classes/Image.class.php'); 
+include_once('/classes/Utilisateur.class.php'); 
 include_once('/classes/Database.class.php'); 
 class ImageDAO {
 
@@ -65,17 +66,70 @@ class ImageDAO {
 		}	
 	}
 
-	public function ajouterCommentaire($image, $commentaire) {
+	public function ajouterCommentaire($url, $commentaire) {
+		try {
+			$db = Database::getConnexion();
+			
 
+			$pstm = $db->prepare("SELECT idImage from image where url=:url");
+			$pstm->bindParam('url', $url);
+			$pstm->execute();
+			foreach($pstm as $id) {}
+			$id = $id["idImage"];
+			$pstm2 = $db->prepare("INSERT INTO commentaire(idImage, commentaire, idUtilisateur) VALUES(:idIm, :comm, :idUser)");
+			$pstm2->bindParam('idIm', $id);
+			$pstm2->bindParam('comm', $commentaire);
+			$pstm2->bindParam('idUser', $_SESSION["id"]);
+
+			$pstm2->execute();
+
+		} catch(PDOException $e) {
+			print "Error!: " . $e->getMessage() . "<br/>";
+			echo "<script>alert('".$e->getMessage()."');</script>";
+		}
 	}
+
+	public function findUtilsateurFromPhoto($objImage) {
+		try {
+
+			$db = Database::getConnexion();
+			$pstm = $db->prepare("SELECT idImage from image where url=:url");
+			$url = $objImage->getUrl();
+			$pstm->bindParam('url', $url);
+			$pstm->execute();
+		    foreach($pstm as $im) {
+		    }
+		    $id = $im["idImage"];
+		    $pstm2 = $db->prepare("SELECT idUtilisateur from utilisateurimage where idImage=:id");
+		    $pstm2->bindParam('id', $id);
+		    $pstm2->execute();
+		    foreach($pstm2 as $idUser) {
+		    }
+		    $idFinalUser = $idUser["idUtilisateur"];
+		    $pstm3 = $db->prepare("SELECT * from utilisateur where idUtilisateur=:mid");
+		    $pstm3->bindParam('mid', $idFinalUser);
+		    $pstm3->execute();
+	     	foreach($pstm3 as $user) {
+		    }
+		    $a = $user["nomUtilisateur"];
+	    	
+		    return $a;
+
+
+		}
+		catch (PDOException $e) {
+			print "Error!: " . $e->getMessage() . "<br/>";
+			return $monNom = "Anonyme";
+		}
+	}	
 
 	public function changerAcces($imageDontTuAsaccess) {
 		try {
 
 		$db = Database::getConnexion($x);
-		$pstm = $db->prepare("UPDATE image set acces=");
+		$pstm = $db->prepare("UPDATE image set acces=0");
 		$pstm->execute();
-		} catch (PDOException e) {
+		} catch (PDOException $e) {
 			print "Error!: " . $e->getMessage() . "<br/>";
 		}
 	}
@@ -84,7 +138,7 @@ class ImageDAO {
 		try {
 			$liste = array();
 
-			$requete = "SELECT * FROM image where acces='public'";
+			$requete = "SELECT * FROM image where acces='0'";
 			$cnx = Database::getConnexion();
 
 			$res = $cnx->query($requete);

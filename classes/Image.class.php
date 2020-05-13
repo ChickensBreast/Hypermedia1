@@ -24,6 +24,10 @@
 		$this->url = $n; 
 	}
 
+	public function getPureUrl() {
+		return substr($this->url, 8);
+	}
+
 	public function getAcces() {
 		return $this->acces;
 	}

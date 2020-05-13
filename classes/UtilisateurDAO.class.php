@@ -39,6 +39,41 @@ class UtilisateurDAO
 					$newAmi->loadFromArray($ami);
 					array_push($liste,$newAmi);
 				}
+			    $req2->closeCursor();
+
+				/*$p->setNumero($row['NUM']);
+				$p->setDesignation($row['DESIGN']);
+				$p->setPrixUnit($row['PRIXUNIT']);*/
+		    }
+			$res->closeCursor();
+			Database::close();
+			return $liste;
+		} catch (PDOException $e) {
+		    print "Error!: " . $e->getMessage() . "<br/>";
+		    return $liste;
+		}	
+	}
+
+	
+	public function findPending()
+	{
+		try {
+			$liste = array();
+			$cnx = Database::getConnexion();
+			$requete = 'SELECT idAmi FROM demandeami where idUtilisateur='.$_SESSION["id"];
+			$res = $cnx->prepare($requete);
+			$res->execute();
+		    foreach($res as $row) {
+				$p = $row["idAmi"];
+				$req2 = $cnx->prepare("SELECT * FROM utilisateur where idUtilisateur=:idUtilisateur");
+				$req2->bindParam(':idUtilisateur', $p);
+				$req2->execute();
+				foreach($req2 as $ami) {
+					$newAmi = new Utilisateur();
+					$newAmi->loadFromArray($ami);
+					array_push($liste,$newAmi);
+				}
+			    $req2->closeCursor();
 
 				/*$p->setNumero($row['NUM']);
 				$p->setDesignation($row['DESIGN']);
@@ -53,18 +88,88 @@ class UtilisateurDAO
 		}	
 	}	
 
-	public function addFriend($ami) {
+	public function findDemand()
+	{
 		try {
+			$liste = array();
+			$cnx = Database::getConnexion();
+			$requete = 'SELECT idUtilisateur FROM demandeami where idAmi='.$_SESSION["id"];
+			$res = $cnx->prepare($requete);
+			$res->execute();
+		    foreach($res as $row) {
+				$p = $row["idUtilisateur"];
+				$req2 = $cnx->prepare("SELECT * FROM utilisateur where idUtilisateur=:idutilisateur");
+				$req2->bindParam(':idutilisateur', $p);
+				$req2->execute();
+				foreach($req2 as $ami) {
+					$newAmi = new Utilisateur();
+					$newAmi->loadFromArray($ami);
+					array_push($liste,$newAmi);
+				}
+			    $req2->closeCursor();
+
+				/*$p->setNumero($row['NUM']);
+				$p->setDesignation($row['DESIGN']);
+				$p->setPrixUnit($row['PRIXUNIT']);*/
+		    }
+			$res->closeCursor();
+			Database::close();
+			return $liste;
+		} catch (PDOException $e) {
+		    print "Error!: " . $e->getMessage() . "<br/>";
+		    return $liste;
+		}	
+	}	
+
+	public function addFriend($ami, $self) {
+		try {
+			$cnx = Database::getConnexion();
+			$requete = $cnx->prepare("SELECT idUtilisateur from utilisateur where nomUtilisateur = :nAmi");
+			$requete->bindParam("nAmi", $ami);
+			$requete->execute();
+			foreach($requete as $myAmi) {}
+			if (isset($myAmi["idUtilisateur"])) {
+				$idAmi = $myAmi["idUtilisateur"];
+				$requete = $cnx->prepare("INSERT INTO utilisateurami(idUtilisateur, idAmi)"." VALUES(:self, :nAmi)"); 
+				$requete->bindParam(':self', $self);
+				$requete->bindParam(':nAmi', $idAmi);
+				$requete->execute();
+				Database::close();
+				header ("Local http://");
+			}
 			
 		} catch (PDOException $e) {
 			print "Error!:".$e->getMessage()."<br/>";
 		}
 	}
 
+	public function addDemand($ami, $self) {
+		try {
+			$cnx = Database::getConnexion();
+			$requete = $cnx->prepare("SELECT idUtilisateur from utilisateur where nomUtilisateur = :nAmi");
+			$requete->bindParam("nAmi", $ami);
+			$requete->execute();
+			foreach($requete as $myAmi) {}
+			if (isset($myAmi["idUtilisateur"])) {
+				$idAmi = $myAmi["idUtilisateur"];
+				$requete = $cnx->prepare("INSERT INTO demandeami(idUtilisateur, idAmi)"." VALUES(:self, :nAmi)"); 
+				$requete->bindParam(':self', $self);
+				$requete->bindParam(':nAmi', $idAmi);
+				$requete->execute();
+				Database::close();
+				header ("Local http://");
+			}
+			
+		} catch (PDOException $e) {
+			print "Error!:".$e->getMessage()."<br/>";
+		}
+	}
+
+
 	public function deleteFriend($otherId, $selfId) {
 		try {
 			$cnx = Database::getConnexion();
-			$requete = $cnx->prepare("DELETE FROM utilisateurami where idAmi = :otherId and idUtilisateur = (SELECT FROM utilisateur where utilisateur = :selfId");
+			$requete = $cnx->prepare("DELETE FROM utilisateurami where idAmi = :otherId and idUtilisateur = :selfId");
 			$requete->bindParam('selfId', $selfId);
 			$requete->bindParam('otherId', $otherId);
 			$requete->execute();
@@ -72,9 +177,34 @@ class UtilisateurDAO
 		} catch (PDOException $e) {
 		    print "Error!: " . $e->getMessage() . "<br/>";
 		} 
-
-
 	}
+
+	public function deleteDemand1($otherId, $selfId) {
+		try {
+			$cnx = Database::getConnexion();
+			$requete = $cnx->prepare("DELETE FROM demandeami where idAmi = :otherId and idUtilisateur = :selfId");
+			$requete->bindParam('selfId', $selfId);
+			$requete->bindParam('otherId', $otherId);
+			$requete->execute();
+
+		
+			Database::close();
+		} catch (PDOException $e) {
+		    print "Error!: " . $e->getMessage() . "<br/>";
+		} 
+	}public function deleteDemand2($otherId, $selfId) {
+		try {
+			$cnx = Database::getConnexion();
+			$requete = $cnx->prepare("DELETE FROM demandeami where idAmi = :selfId and idUtilisateur = :otherId");
+			$requete->bindParam('selfId', $selfId);
+			$requete->bindParam('otherId', $otherId);
+			$requete->execute();
+			Database::close();
+		} catch (PDOException $e) {
+		    print "Error!: " . $e->getMessage() . "<br/>";
+		} 
+	}
+
 
 	public static function find($id)
 	{
@@ -96,11 +226,11 @@ class UtilisateurDAO
 			return $p;
 		}
 		$pstmt->closeCursor();
+		Database::close();
+
 		return NULL;
 	}
 
-
-	
 	public static function ajoutable($nom, $courriel) 
 	{
 		$db = Database::getConnexion();

@@ -1,5 +1,6 @@
 <?php
 	class Utilisateur {
+		private $idUtilisateur = "";
 		private $nomUtilisateur = "default";
 		private $prenom = "";
 		private $nom = "";
@@ -18,8 +19,8 @@
 		return $this->idUtilisateur;
 	}
 
-	public function setIdUtilisateur() {
-		$this->idUtilisateur = rand(1,1000);
+	public function setIdUtilisateur($n) {
+		$this->idUtilisateur = $n;
 	}
 
 	public function getNomUtilisateur() {
@@ -72,6 +73,7 @@
 	}
 
 	public function loadFromArray($tab) {
+		$this->idUtilisateur = $tab["idUtilisateur"];
 		$this->nomUtilisateur = $tab["nomUtilisateur"];
 		$this->nom = $tab["nom"];
 		$this->prenom = $tab["prenom"];
@@ -79,6 +81,7 @@
 	}
 
 	public function loadFromObject($x) {
+		$this->idUtilisateur = $x->idUtilisateur;
 		$this->nomUtilisateur = $x->nomUtilisateur;
 		$this->motDePasse = $x->motDePasse;
 		$this->nom = $x->nom;

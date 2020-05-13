@@ -21,27 +21,64 @@
 	</header>	
 	
 	<main style="min-height: 600px">
-		<div class="input-group-prepend" style="justify-content: center">
-        	<form >
-        		<input type="submit" name="" value="Afficher les images publiques">
-        	</form>
-    	</div>
-	</main>
-
 	<?php 
 		if(!isset($_SESSION)) {
  			   session_start();
 		} 
-	
+		
 		include_once('/classes/Image.class.php'); 
 		include_once('/classes/ImageDAO.class.php'); 
+		include_once('/classes/Commentaire.class.php'); 
+		include_once('/classes/CommentaireDAO.class.php'); 
+		$dao2 = new CommentaireDAO();
 		$dao = new ImageDAO();
 		$liste = $dao->findPublicImage();
-		echo "hi";
+		echo "<div class='conteneur' style='border:2px solid black'>";
+		?>
+		<div class='conteneur' style='border:2px solid black'>
+
+		<?php
 		foreach($liste as $image) {
-			echo "<figure><img src='".$image->getUrl()."'/><br/><figurecaption>".$image->getNom()."</figurecaption></figure>";
+			$nom = $dao->findUtilsateurFromPhoto($image);
+						?>
+			
+						<figure style='border:2px solid black'>
+						<img src="<?=$image->getUrl()?>"/><br/>
+						<figurecaption>
+						<?php $tabNomCom = $dao2->findAllComments($image->getUrl());
+
+						?>
+						<div style= "height: 100px;" data-spy="scroll" class="overflow-auto" data-target="#navbar-example3" data-offset="0">
+						<?php
+						foreach ($tabNomCom as $tab) {
+							?>
+							  <h4> <?=$tab["nomUtilisateur"]?></h4>
+							  <p> <?=$tab["commentaire"]?>.</p>
+							
+
+						<?php } 
+						?>
+						</div>
+
+						<br/>  <form method='POST' action="?action=<?=$image->getUrl()?>"> 
+						<textarea name="comment"></textarea> 
+						<br/><input type='submit' name='submit' value='Commenter'>
+						</form></figure>
+						</figurecaption>
+						</figure><br/>
+
+		<?php } ?> 
+		</div><?php
+		if (isset($_POST["submit"])) {
+			// print_r(array_keys($_POST));
+			// echo ($_POST['comment']);
+			// echo ($_REQUEST['action']);
+			$dao->ajouterCommentaire($_REQUEST['action'], $_POST['comment']);
+		    header("Location: /monappli/pagePublic.php");
 		}
+		
 	?>
+	</main>
 	<footer>
 		<div id="footer"></div>
 	</footer>

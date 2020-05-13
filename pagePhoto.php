@@ -49,7 +49,7 @@
                 <p><strong>Note:</strong> Seulement .jpg, .jpeg, .gif, .png de taille maximum de 1024000kB (1000mB).</p>
             </div>
             <div>
-                <input class="form-control" type="checkbox" name="protection" value="Publier publiquement" checked>
+                <input class="form-control" type="checkbox" name="public" value="Publier publiquement" checked>
                 <label for="checked" style="align-self: end;"> <span style="color: red">*Publication publique</span></label>
             </div>
             </form>
@@ -74,10 +74,10 @@
                 $extension = strtolower(end($fileExt));
 
                 $allowed = array("jpg", "png", "jpeg");
-                if (isset($_POST["protection"])) {
-                    $protection = 1;
-                } else {
+                if (isset($_POST["public"])) {
                     $protection = 0;
+                } else {
+                    $protection = 1;
                 }
 
                 if (in_array($extension, $allowed)) {
